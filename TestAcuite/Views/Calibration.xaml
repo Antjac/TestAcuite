@@ -17,7 +17,7 @@
                 <Grid HorizontalOptions="Start" Grid.Column="0" VerticalOptions="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="400" />
-                        <RowDefinition Height="100" />
+                        <RowDefinition Height="50" />
                         <RowDefinition Height="50" />
                         <RowDefinition Height="50" />
                         <RowDefinition Height="50" />
@@ -27,39 +27,24 @@
                         <ColumnDefinition Width="500" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
+
                     <Image
-                        Source="planche.png"
                         Grid.Column="1"
                         Grid.Row="0"
-                        HeightRequest="200"
-                        HorizontalOptions="Center" />
-
-                    <Button
-                        Text="Sauvegarder la calibration"
-                        HorizontalOptions="Center"
-                        HeightRequest="40"
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Command="{Binding CalibrationValidationCommand}" />
-
-                    <Button
-                        Grid.Column="2"
-                        HeightRequest="40"
-                        Grid.Row="1"
-                        Text="Lancer le test"
-                        HorizontalOptions="Center"
-                        Command="{Binding GoToAccuiteCommand}" />
+                        Source="planche.png"
+                        HeightRequest="200"/>
 
 
+                  
                     <Image
                         Grid.Column="0"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Source="distance.png"
                         HeightRequest="50"/>
 
                     <Label
                         Grid.Column="1"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         TextColor="White"
                         Text="Distance Patient-Ecran (cm): "
                         FontSize="32"/>
@@ -67,50 +52,66 @@
                     <Entry
                         Grid.Column="2"
                         Text ="{Binding Distance, Mode=TwoWay}"
-                        Grid.Row="2"
-                       BackgroundColor="White"
+                        Grid.Row="1"
+                       BackgroundColor="Black"
                         FontSize="32"/>
 
                     <Image
                         Grid.Column="0"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Source="eye.png"
                         HeightRequest="50"/>
 
 
                     <Label
                         Grid.Column="1"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         TextColor="White"
-                        Text="Accuité de référence (X/10)"
+                        Text="Accuité de référence (LogMar)"
                         FontSize="32" />
 
                     <Entry
                         Grid.Column="2"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Text ="{Binding Accuity, Mode=TwoWay}"
-                        BackgroundColor="White"
+                        BackgroundColor="Black"
                         FontSize="32"/>
 
 
                     <Image
                         Grid.Column="0"
-                        Grid.Row="4"
+                        Grid.Row="3"
                         Source="ruler.png"
                         HeightRequest="50"/>
                     <Label
                         Grid.Column="1"
                         TextColor="White"
-                        Grid.Row="4"
+                        Grid.Row="3"
                         Text="Hauteur de la lettre (cm)"
                         FontSize="32" />
 
                     <Entry
                         Grid.Column="2"
-                        Grid.Row="4"
-                        BackgroundColor="White"
+                        Grid.Row="3"
+                        BackgroundColor="Black"
                         Text ="{Binding TextSize, Mode=TwoWay}"
                         FontSize="32"/>
+
+                    <Button
+                        Text="Sauvegarder la calibration"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        Grid.Column="1"
+                        Grid.Row="4"
+                        Command="{Binding CalibrationValidationCommand}" />
+
+                    <Button
+                        Grid.Column="2"
+                        HeightRequest="40"
+                        Grid.Row="4"
+                        Text="Lancer le test"
+                        HorizontalOptions="Center"
+                        Command="{Binding GoToAccuiteCommand}" />
 
 
                 </Grid>
@@ -131,7 +132,7 @@
                         LineHeight="-1"
                         Text="Z"
                         TextColor="White"
-                        FontFamily="OpticianSans"
+                        FontFamily="Sloan"
                         FontSize="{Binding FontSize, Mode=OneWay}"/>
                 </VerticalStackLayout>
 

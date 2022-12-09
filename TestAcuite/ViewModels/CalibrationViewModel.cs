@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TestAcuite.Class;
 using TestAcuite.Helpers;
-
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 namespace TestAcuite.ViewModels
 {
     internal class CalibrationViewModel : INotifyPropertyChanged
     {
         private CalibrationParams _params = new CalibrationParams();
-
+        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public ICommand CalibrationValidationCommand { get; private set; }
         public ICommand GoToAccuiteCommand { get; private set; }
@@ -25,7 +19,7 @@ namespace TestAcuite.ViewModels
             CalibrationParams p = ConfigHelper.GetCalibration();
             if (p is null)
             {
-                _params.Accuity = 0.5d;
+                _params.Accuity = 0.5M;
                 _params.TextSize = 10;
                 _params.Distance = 300;
                 _params.FontSize = 800;
@@ -42,7 +36,10 @@ namespace TestAcuite.ViewModels
             CalibrationValidationCommand = new Command(
                 execute: () =>
                 {
-                    ConfigHelper.SaveCalibration(_params);
+                    if (ConfigHelper.SaveCalibration(_params))
+                    {
+                        ShowSaveCalibrationToast();
+                    }
                 },
                 canExecute: () =>
                 {
@@ -61,6 +58,15 @@ namespace TestAcuite.ViewModels
 
         }
 
+        private async void ShowSaveCalibrationToast()
+        {
+            ToastDuration duration = ToastDuration.Long;
+            double fontSize = 50;
+            var toast = Toast.Make("Calibration sauvegardée", duration, fontSize);
+
+            await toast.Show(cancellationTokenSource.Token);
+        }
+
         public int FontSize
         {
             get { return _params.FontSize; }
@@ -71,7 +77,7 @@ namespace TestAcuite.ViewModels
             }
         }
 
-        public double Accuity
+        public decimal Accuity
         {
             get { return _params.Accuity; }
             set

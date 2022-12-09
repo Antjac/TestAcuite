@@ -1,14 +1,23 @@
-﻿using TestAcuite.ViewModels;
+﻿using SharpHook.Native;
+using TestAcuite.ViewModels;
 
 namespace TestAcuite;
 
 public partial class Acuite : ContentPage
 {
-	public Acuite()
+    private AcuiteViewModel _viewModel;
+
+    public Acuite()
 	{
 		InitializeComponent();
         BindingContext = new AcuiteViewModel();
-        AcuiteViewModel viewModel = this.BindingContext as AcuiteViewModel;
+        _viewModel = this.BindingContext as AcuiteViewModel;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.Listen();
     }
 }
 

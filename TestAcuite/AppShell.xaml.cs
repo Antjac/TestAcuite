@@ -8,4 +8,5 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(Calibration), typeof(Calibration));
         Routing.RegisterRoute(nameof(Acuite), typeof(Acuite));
     }
+
 }

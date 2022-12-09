@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace TestAcuite.Class
 {
-    public class CalibrationParams
+    public class ConvertUnit
     {
-        public int FontSize { get; set; }
-        public double Accuity { get; set; }
-        public int TextSize { get; set; }
-        public int Distance { get; set; }
+        public decimal Logmar { get; set; }
+        public double DecFrac { get; set; }
+        public string Monoyer { get; set; }
+        public ConvertUnit(decimal logmar, double decFrac, string monoyer)
+        {
+            Logmar = logmar;
+            DecFrac = decFrac;
+            Monoyer = monoyer;
+        }
 
+       
     }
 }
