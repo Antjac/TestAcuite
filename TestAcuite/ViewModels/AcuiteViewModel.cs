@@ -53,7 +53,7 @@ namespace TestAcuite.ViewModels
 
         public AcuiteViewModel()
         {
-          
+            Listen();
         }
 
         public void Listen()
