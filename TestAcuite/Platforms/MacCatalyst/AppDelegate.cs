@@ -6,5 +6,5 @@ namespace TestAcuite;
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate
 {
-	protected override MauiApp CreateMauiApp() => Calibration.CreateMauiApp();
+	protected override MauiApp CreateMauiApp() => TestAcuite.CreateMauiApp();
 }

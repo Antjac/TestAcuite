@@ -9,24 +9,29 @@ namespace TestAcuite.ViewModels
 
     class AcuiteViewModel : INotifyPropertyChanged, IDisposable
     {
-        private int _fontSize;
+        private double _fontSize;
         private CalibrationParams _params;
         private String _textToShow;
         private Color _textColor;
         private Color _backgroundColor;
         private List<String> _lstText = new List<String>() { "NCKZO", "RHSDK", "DOVHR", "ONHRC", "DKSNV", "ZSOKN", "CKDNR", "SRZKD", "HZOVC", "NVDOK", "VHCNO", "SVHCZ", "OZDVK" };
-        public TaskPoolGlobalHook hook;
+        public SharpHook.SimpleGlobalHook hook;
         public AcuiteViewModel()
         {
             _params = ConfigHelper.GetCalibration();
             FontSize = _params.FontSize;
-            _textColor = Color.Parse("Black");
-            _backgroundColor = Color.Parse("White");
+            _textColor = Color.Parse("White");
+            _backgroundColor = Color.Parse("Black");
             _textToShow = "ABC";
-            hook = new TaskPoolGlobalHook();
+            Listen();
+        }
 
+        private void Listen()
+        {
+            if (hook != null) { return; }
+            hook = new SimpleGlobalHook();
             hook.KeyPressed += OnKeyPressed;
-            hook.Run();
+            hook.RunAsync();
         }
 
         private void OnKeyPressed(object sender, KeyboardHookEventArgs e)
@@ -62,27 +67,26 @@ namespace TestAcuite.ViewModels
                 case SharpHook.Native.KeyCode.VcNumPadAdd:
                     IncreaseTextSize();
                     break;
-                case SharpHook.Native.KeyCode.VcNumPadDown:
+                case SharpHook.Native.KeyCode.VcNumPadSubtract:
                     DecreaseTextSize();
                     break;
 
                 case SharpHook.Native.KeyCode.VcEscape:
-                    hook = null;
+                    Shell.Current.GoToAsync("..");
+                    hook.Dispose();
                     break;
-
-
             }
 
         }
 
         private void IncreaseTextSize()
         {
-
+            FontSize *= 1.2589d;
         }
 
         private void DecreaseTextSize()
         {
-
+            FontSize /= 1.2589d;
         }
 
         public String TextToShow
@@ -90,7 +94,7 @@ namespace TestAcuite.ViewModels
             get { return _textToShow; }
             set { _textToShow = value; OnPropertyChanged("TextToShow"); }
         }
-        public int FontSize
+        public double FontSize
         {
             get { return _fontSize; }
             set { _fontSize = value; OnPropertyChanged("FontSize"); }
@@ -115,7 +119,11 @@ namespace TestAcuite.ViewModels
 
         public void Dispose()
         {
-            hook.Dispose();
+            if (!hook.IsDisposed)
+            {
+                hook.Dispose();
+            }
+
         }
     }
 }

@@ -9,7 +9,7 @@
                 TextColor ="{Binding TextColor, Mode=TwoWay}"
                 Text="{Binding TextToShow, Mode=TwoWay}"
                 FontFamily="OpticianSans"
-                FontSize="{Binding FontSize, Mode=TwoWay}" />
+                FontSize="{Binding FontSize, Mode=TwoWay}" VerticalOptions="Start" FontAutoScalingEnabled="True" />
          </StackLayout>
 
 

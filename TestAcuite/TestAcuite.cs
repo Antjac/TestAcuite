@@ -1,4 +1,6 @@
-﻿namespace TestAcuite;
+﻿using TestAcuite.ViewModels;
+
+namespace TestAcuite;
 
 public static class TestAcuite
 {
@@ -14,6 +16,10 @@ public static class TestAcuite
                 fonts.AddFont("Optician-Sans.otf", "OpticianSans");
             });
 
+        builder.Services.AddSingleton<Acuite>();
+        builder.Services.AddSingleton<AcuiteViewModel>();
+        builder.Services.AddSingleton<Calibration>();
+        builder.Services.AddSingleton<CalibrationViewModel>();
         return builder.Build();
     }
 }

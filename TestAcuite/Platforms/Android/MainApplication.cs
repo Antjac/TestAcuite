@@ -12,5 +12,5 @@ public class MainApplication : MauiApplication
 	{
 	}
 
-	protected override MauiApp CreateMauiApp() => Calibration.CreateMauiApp();
+	protected override MauiApp CreateMauiApp() => TestAcuite.CreateMauiApp();
 }

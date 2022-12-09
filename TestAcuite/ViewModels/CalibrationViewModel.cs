@@ -19,6 +19,7 @@ namespace TestAcuite.ViewModels
 
 
         public ICommand CalibrationValidationCommand { get; private set; }
+        public ICommand GoToAccuiteCommand { get; private set; }
         public CalibrationViewModel()
         {
             CalibrationParams p = ConfigHelper.GetCalibration();
@@ -27,7 +28,7 @@ namespace TestAcuite.ViewModels
                 _params.Accuity = 0.5d;
                 _params.TextSize = 10;
                 _params.Distance = 300;
-                _params.FontSize = 100;
+                _params.FontSize = 800;
                 ConfigHelper.SaveCalibration(_params);
             }
             else
@@ -47,6 +48,17 @@ namespace TestAcuite.ViewModels
                 {
                     return true;
                 });
+
+            GoToAccuiteCommand = new Command(
+               execute: () =>
+               {
+                   Shell.Current.GoToAsync(nameof(Acuite));
+               },
+               canExecute: () =>
+               {
+                   return true;
+               });
+
         }
 
         public int FontSize
