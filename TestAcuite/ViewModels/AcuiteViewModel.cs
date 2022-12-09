@@ -53,6 +53,7 @@ namespace TestAcuite.ViewModels
 
         public AcuiteViewModel()
         {
+            hook.KeyPressed += OnKeyPressed;
             Listen();
         }
 
@@ -66,9 +67,10 @@ namespace TestAcuite.ViewModels
             _isAcuiteVisible = false;
             int index = new Random().Next(_lstText.Count);
             TextToShow = _lstText[index].Substring(0, 3);
-
-            hook.KeyPressed += OnKeyPressed;
-            hook.RunAsync();
+            if (!hook.IsRunning)
+            {
+                hook.RunAsync();
+            }
         }
 
         private void OnKeyPressed(object sender, KeyboardHookEventArgs e)
