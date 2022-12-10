@@ -6,6 +6,7 @@ using SharpHook;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using SharpHook.Native;
+using System;
 
 namespace TestAcuite.ViewModels
 {
@@ -19,7 +20,7 @@ namespace TestAcuite.ViewModels
         private decimal _currentLogMar;
         private List<String> _lstText = new List<String>() { "NCKZO", "RHSDK", "DOVHR", "ONHRC", "DKSNV", "ZSOKN", "CKDNR", "SRZKD", "HZOVC", "NVDOK", "VHCNO", "SVHCZ", "OZDVK" };
         public SharpHook.SimpleGlobalHook hook = new SimpleGlobalHook();
-
+        private int _nbLetters;
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         ConvertUnit[] _convert = new ConvertUnit[]
         {
@@ -59,6 +60,7 @@ namespace TestAcuite.ViewModels
             _textColor = Color.Parse("White");
             _backgroundColor = Color.Parse("Black");
             _isAcuiteVisible = false;
+            _nbLetters = 3;
             hook.KeyPressed += OnKeyPressed;
             Listen();
         }
@@ -78,21 +80,24 @@ namespace TestAcuite.ViewModels
 
         private void OnKeyPressed(object sender, KeyboardHookEventArgs e)
         {
-            var random = new Random();
-            int index = random.Next(_lstText.Count);
+         
             switch (e.Data.KeyCode)
             {
                 case SharpHook.Native.KeyCode.VcNumPad2:
-                    TextToShow = _lstText[index].Substring(0, 2);
+                    _nbLetters = 2;
+                    ShowCombinaison();
                     break;
                 case SharpHook.Native.KeyCode.VcNumPad3:
-                    TextToShow = _lstText[index].Substring(0,3);
+                    _nbLetters = 3;
+                    ShowCombinaison();
                     break;
                 case SharpHook.Native.KeyCode.VcNumPad4:
-                    TextToShow = _lstText[index].Substring(0, 4);
+                    _nbLetters = 4;
+                    ShowCombinaison();
                     break;
                 case SharpHook.Native.KeyCode.VcNumPad5:
-                    TextToShow = _lstText[index].Substring(0, 5);
+                    _nbLetters = 5;
+                    ShowCombinaison();
                     break;
                 case SharpHook.Native.KeyCode.VcEnter:
                     IsAcuiteVisible = !IsAcuiteVisible;
@@ -113,10 +118,10 @@ namespace TestAcuite.ViewModels
                     IsHelpVisible = !IsHelpVisible;
                     break;
                 case SharpHook.Native.KeyCode.VcNumPadAdd:
-                    IncreaseTextSize();
+                    DecreaseTextSize();
                     break;
                 case SharpHook.Native.KeyCode.VcNumPadSubtract:
-                    DecreaseTextSize();
+                    IncreaseTextSize();
                     break;
 
                 case SharpHook.Native.KeyCode.VcEscape:
@@ -126,6 +131,12 @@ namespace TestAcuite.ViewModels
 
         }
 
+        private void ShowCombinaison()
+        {
+            var random = new Random();
+            int index = random.Next(_lstText.Count);
+            TextToShow = _lstText[index].Substring(0, _nbLetters);
+        }
         private void IncreaseTextSize()
         {
             ConvertUnit nextVal = _convert.FirstOrDefault(x => x.Logmar.Equals(_currentLogMar + 0.1M));
@@ -137,7 +148,8 @@ namespace TestAcuite.ViewModels
             FontSize *= 1.2589d;
             _currentLogMar = nextVal.Logmar;
             OnPropertyChanged(nameof(AcuiteText));
-            showToast(AcuiteText); 
+            showToast(AcuiteText);
+            ShowCombinaison();
         }
 
         private void DecreaseTextSize()
@@ -152,6 +164,7 @@ namespace TestAcuite.ViewModels
             _currentLogMar = nextVal.Logmar;
             OnPropertyChanged(nameof(AcuiteText));
             showToast(AcuiteText);
+            ShowCombinaison();
 
         }
 
@@ -177,8 +190,9 @@ namespace TestAcuite.ViewModels
         {
             get 
             {
-                ConvertUnit nextVal = _convert.FirstOrDefault(x => x.Logmar.Equals(_currentLogMar + 0.1M));
-                return "LogMar : " + nextVal.Logmar.ToString() + Environment.NewLine + "Monoyer : " + nextVal.Monoyer + Environment.NewLine + "Décimal : " + nextVal.DecFrac.ToString(); 
+                ConvertUnit currentVal = _convert.FirstOrDefault(x => x.Logmar.Equals(_currentLogMar));
+             
+                return "LogMar : " + currentVal.Logmar.ToString() + Environment.NewLine + "Monoyer : " + currentVal.Monoyer + Environment.NewLine + "Décimal : " + currentVal.DecFrac.ToString(); 
             }
         }
 
