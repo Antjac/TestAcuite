@@ -19,10 +19,10 @@ namespace TestAcuite.ViewModels
             CalibrationParams p = ConfigHelper.GetCalibration();
             if (p is null)
             {
-                _params.Accuity = 0.5M;
-                _params.TextSize = 10;
-                _params.Distance = 300;
-                _params.FontSize = 800;
+                _params.Accuity = 1.0M;
+                _params.TextSize = 7;
+                _params.Distance = 400;
+                _params.FontSize = 500;
                 ConfigHelper.SaveCalibration(_params);
             }
             else
@@ -73,7 +73,7 @@ namespace TestAcuite.ViewModels
             set
             {
                 _params.FontSize = value;
-                OnPropertyChanged("FontSize");
+                OnPropertyChanged(nameof(FontSize));
             }
         }
 
@@ -83,7 +83,7 @@ namespace TestAcuite.ViewModels
             set
             {
                 _params.Accuity = value;
-                OnPropertyChanged("Accuity");
+                OnPropertyChanged(nameof(Accuity));
             }
         }
 
@@ -93,7 +93,7 @@ namespace TestAcuite.ViewModels
             set
             {
                 _params.TextSize = value;
-                OnPropertyChanged("TextSize");
+                OnPropertyChanged(nameof(TextSize));
             }
         }
 
@@ -103,7 +103,7 @@ namespace TestAcuite.ViewModels
             set
             {
                 _params.Distance = value;
-                OnPropertyChanged("Distance");
+                OnPropertyChanged(nameof(Distance));
             }
         }
 

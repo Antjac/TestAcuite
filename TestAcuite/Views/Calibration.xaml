@@ -12,7 +12,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="800" />
-                    <ColumnDefinition Width="1000" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid HorizontalOptions="Start" Grid.Column="0" VerticalOptions="Center">
                     <Grid.RowDefinitions>
@@ -116,7 +116,7 @@
 
                 </Grid>
 
-                <VerticalStackLayout HorizontalOptions="Start"  Grid.Column="1">
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand"  Grid.Column="1">
                     <Image
                         Source="fontsize.png"
                        HeightRequest="50"/>
