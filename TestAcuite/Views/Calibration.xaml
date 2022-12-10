@@ -34,8 +34,6 @@
                         Source="planche.png"
                         HeightRequest="200"/>
 
-
-                  
                     <Image
                         Grid.Column="0"
                         Grid.Row="1"
@@ -97,6 +95,7 @@
                         Text ="{Binding TextSize, Mode=TwoWay}"
                         FontSize="32"/>
 
+                                    
                     <Button
                         Text="Sauvegarder la calibration"
                         HorizontalOptions="Center"
@@ -136,10 +135,9 @@
                         FontSize="{Binding FontSize, Mode=OneWay}"/>
                 </VerticalStackLayout>
 
-                 
-            </Grid>
-           
 
+            </Grid>
+       
         </VerticalStackLayout>
     </ScrollView>
 

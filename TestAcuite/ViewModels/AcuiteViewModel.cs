@@ -50,9 +50,15 @@ namespace TestAcuite.ViewModels
             new ConvertUnit(2.1M,0.008,"1/120")*/
         };
         private bool _isAcuiteVisible;
+        private bool _isHelpVisible;
 
         public AcuiteViewModel()
         {
+            _isHelpVisible = true;
+            _isAcuiteVisible = false;
+            _textColor = Color.Parse("White");
+            _backgroundColor = Color.Parse("Black");
+            _isAcuiteVisible = false;
             hook.KeyPressed += OnKeyPressed;
             Listen();
         }
@@ -62,9 +68,6 @@ namespace TestAcuite.ViewModels
             _params = ConfigHelper.GetCalibration();
             _currentLogMar = _params.Accuity;
             FontSize = _params.FontSize;
-            _textColor = Color.Parse("White");
-            _backgroundColor = Color.Parse("Black");
-            _isAcuiteVisible = false;
             int index = new Random().Next(_lstText.Count);
             TextToShow = _lstText[index].Substring(0, 3);
             if (!hook.IsRunning)
@@ -106,7 +109,9 @@ namespace TestAcuite.ViewModels
                         BackGroundColor = Color.Parse("White");
                     }
                 break;
-
+                case SharpHook.Native.KeyCode.VcH:
+                    IsHelpVisible = !IsHelpVisible;
+                    break;
                 case SharpHook.Native.KeyCode.VcNumPadAdd:
                     IncreaseTextSize();
                     break;
@@ -114,9 +119,9 @@ namespace TestAcuite.ViewModels
                     DecreaseTextSize();
                     break;
 
-               /* case SharpHook.Native.KeyCode.VcEscape:
+                case SharpHook.Native.KeyCode.VcEscape:
                     Shell.Current.GoToAsync("..");
-                    break;*/
+                    break;
             }
 
         }
@@ -182,6 +187,13 @@ namespace TestAcuite.ViewModels
             get { return _isAcuiteVisible; }
             set { _isAcuiteVisible = value; OnPropertyChanged("IsAcuiteVisible"); }
         }
+
+        public Boolean IsHelpVisible
+        {
+            get { return _isHelpVisible; }
+            set { _isHelpVisible = value; OnPropertyChanged("IsHelpVisible"); }
+        }
+
 
         public Color BackGroundColor
         {

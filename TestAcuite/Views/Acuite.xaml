@@ -1,25 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="TestAcuite.Acuite" BackgroundColor="{Binding BackGroundColor, Mode=TwoWay}"
              Shell.NavBarIsVisible="False">
 
-
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
         <Label
                 TextColor ="{Binding TextColor, Mode=TwoWay}"
+                IsVisible="{Binding IsHelpVisible, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
                 Text="{Binding TextToShow, Mode=TwoWay}"
                 FontFamily="Sloan"
                 CharacterSpacing="16"
                 FontSize="{Binding FontSize, Mode=TwoWay}" VerticalOptions="Start" FontAutoScalingEnabled="True" />
 
+
+        <Image
+                IsVisible="{Binding IsHelpVisible, Mode=TwoWay}"
+                Source="help.png"
+                HeightRequest="900"/>
+        
         <Label
                 TextColor ="{Binding TextColor, Mode=TwoWay}"
                 VerticalTextAlignment="End"
                 IsVisible="{Binding IsAcuiteVisible, Mode=TwoWay}"
                 Text="{Binding AcuiteText, Mode=TwoWay}"
                 FontSize="40" VerticalOptions="Start" FontAutoScalingEnabled="True" />
-        
+
+
     </StackLayout>
 
 
