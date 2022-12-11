@@ -7,7 +7,7 @@ using Microsoft.Maui.ApplicationModel;
 
 namespace TestAcuite.ViewModels
 {
-    class AcuiteViewModel : INotifyPropertyChanged, IDisposable
+    class AcuiteViewModel : INotifyPropertyChanged
     {
         private double _fontSize;
         private CalibrationParams _params;
@@ -255,15 +255,5 @@ namespace TestAcuite.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = "") =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-    
-        public void Dispose()
-        {
-            if (!hook.IsDisposed)
-            {
-                hook.Dispose();
-            }
-
-        }
     }
 }
