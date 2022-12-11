@@ -14,16 +14,15 @@ namespace TestAcuite.ViewModels
         private Color _textColor;
         private Color _backgroundColor;
         private decimal _currentLogMar;
-        private List<String> _lstToShow = new List<String>();
-        private List<String> _lstSloan = new List<String>() { "NCKZO", "RHSDK", "DOVHR", "ONHRC", "DKSNV", "ZSOKN", "CKDNR", "SRZKD", "HZOVC", "NVDOK", "VHCNO", "SVHCZ", "OZDVK" };
-        private List<String> _lstRaskin = new List<String>() { "ADBCD", "CBADC", "DCBAB", "BADCA" };
-        private List<String> _lstLandolt = new List<String>() { "EKGHI", "LFEKJ", "KEHFI", "FKHIG", "EJFLH","HKIHL","IJFEG","FIHEK" };
-        public SharpHook.SimpleGlobalHook hook = new SimpleGlobalHook();
+        private List<String> _lstToShow = new();
+        private readonly List<String> _lstSloan = new() { "NCKZO", "RHSDK", "DOVHR", "ONHRC", "DKSNV", "ZSOKN", "CKDNR", "SRZKD", "HZOVC", "NVDOK", "VHCNO", "SVHCZ", "OZDVK" };
+        private readonly List<String> _lstRaskin = new() { "ADBCD", "CBADC", "DCBAB", "BADCA" };
+        private readonly List<String> _lstLandolt = new() { "EKGHI", "LFEKJ", "KEHFI", "FKHIG", "EJFLH","HKIHL","IJFEG","FIHEK" };
+        private const double LOGMAR_COEFF = 1.2589d;
         private int _nbLetters;
         private int _scaleX;
         private string _fontToUse;
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        ConvertUnit[] _convert = new ConvertUnit[]
+        private readonly ConvertUnit[] _convert = new ConvertUnit[]
         {
             new ConvertUnit(-0.3M,2,"20/10"),
             new ConvertUnit(-0.2M,1.6,"16/10"),
@@ -53,7 +52,9 @@ namespace TestAcuite.ViewModels
         };
         private bool _isAcuiteVisible;
         private bool _isHelpVisible;
+        public SimpleGlobalHook hook = new();
 
+        #region Constructors
         public AcuiteViewModel()
         {
             _isHelpVisible = true;
@@ -69,126 +70,9 @@ namespace TestAcuite.ViewModels
             ShowCombinaison();
             Listen();
         }
+        #endregion
 
-        public void Listen()
-        {
-            _params = ConfigHelper.GetCalibration();
-            _currentLogMar = _params.Accuity;
-            FontSize = _params.FontSize;
-            if (!hook.IsRunning)
-            {
-                hook.RunAsync();
-            }
-        }
-
-        private void OnKeyPressed(object sender, KeyboardHookEventArgs e)
-        {
-         
-            switch (e.Data.KeyCode)
-            {
-                case SharpHook.Native.KeyCode.VcNumPad2:
-                    _nbLetters = 2;
-                    ShowCombinaison();
-                    break;
-                case SharpHook.Native.KeyCode.VcNumPad3:
-                    _nbLetters = 3;
-                    ShowCombinaison();
-                    break;
-                case SharpHook.Native.KeyCode.VcNumPad4:
-                    _nbLetters = 4;
-                    ShowCombinaison();
-                    break;
-                case SharpHook.Native.KeyCode.VcNumPad5:
-                    _nbLetters = 5;
-                    ShowCombinaison();
-                    break;
-                case SharpHook.Native.KeyCode.VcEnter:
-                    IsAcuiteVisible = !IsAcuiteVisible;
-                    break;
-                case SharpHook.Native.KeyCode.VcSpace:
-                    if (TextColor == Color.Parse("Black"))
-                    {
-                        TextColor = Color.Parse("White");
-                        BackGroundColor = Color.Parse("Black");
-                    }
-                    else
-                    {
-                        TextColor = Color.Parse("Black");
-                        BackGroundColor = Color.Parse("White");
-                    }
-                break;
-                case SharpHook.Native.KeyCode.VcH:
-                    IsHelpVisible = !IsHelpVisible;
-                    break;
-                case SharpHook.Native.KeyCode.VcM:
-                    ScaleXValue = ScaleXValue *= -1;
-                    break;
-                case SharpHook.Native.KeyCode.VcS:
-                    FontToUse = "Sloan";
-                    _lstToShow = _lstSloan;
-                    ShowCombinaison();
-                    break;
-                case SharpHook.Native.KeyCode.VcR:
-                    FontToUse = "RaskinLandol";
-                    _lstToShow = _lstRaskin;
-                    ShowCombinaison();
-                    break;
-                case SharpHook.Native.KeyCode.VcL:
-                    FontToUse = "RaskinLandol";
-                    _lstToShow = _lstLandolt;
-                    ShowCombinaison();
-                    break;
-                case SharpHook.Native.KeyCode.VcNumPadAdd:
-                    DecreaseTextSize();
-                    break;
-                case SharpHook.Native.KeyCode.VcNumPadSubtract:
-                    IncreaseTextSize();
-                    break;
-
-                case SharpHook.Native.KeyCode.VcEscape:
-                    Shell.Current.GoToAsync("..");
-                    break;
-            }
-
-        }
-
-        private void ShowCombinaison()
-        {
-            var random = new Random();
-            int index = random.Next(_lstToShow.Count);
-            TextToShow = _lstToShow[index].Substring(random.Next(0, _lstToShow[index].Count() - _nbLetters), _nbLetters);
-        }
-        private void IncreaseTextSize()
-        {
-            ConvertUnit nextVal = _convert.FirstOrDefault(x => x.Logmar.Equals(_currentLogMar + 0.1M));
-            if (nextVal == null)
-            {
-                return;
-            }
-            
-            FontSize *= 1.2589d;
-            _currentLogMar = nextVal.Logmar;
-            OnPropertyChanged(nameof(AcuiteText));
-            
-            ShowCombinaison();
-        }
-
-        private void DecreaseTextSize()
-        {
-            ConvertUnit nextVal = _convert.FirstOrDefault(x => x.Logmar.Equals(_currentLogMar - 0.1M));
-            if (nextVal == null)
-            {
-                return;
-            }
-
-            FontSize /= 1.2589d;
-            _currentLogMar = nextVal.Logmar;
-            OnPropertyChanged(nameof(AcuiteText));
-
-            ShowCombinaison();
-
-        }
-
+        #region Properties
         public String TextToShow
         {
             get { return _textToShow; }
@@ -248,11 +132,131 @@ namespace TestAcuite.ViewModels
             get { return _backgroundColor; }
             set { _backgroundColor = value; OnPropertyChanged(nameof(BackGroundColor)); }
         }
+        #endregion
 
-
-
+        #region Events
         public event PropertyChangedEventHandler PropertyChanged;
+        #endregion Events
+
+        #region Voids
+        public void Listen()
+        {
+            _params = ConfigHelper.GetCalibration();
+            _currentLogMar = _params.Accuity;
+            FontSize = _params.FontSize;
+            if (!hook.IsRunning)
+            {
+                hook.RunAsync();
+            }
+        }
+
+        private void OnKeyPressed(object sender, KeyboardHookEventArgs e)
+        {
+            switch (e.Data.KeyCode)
+            {
+                case SharpHook.Native.KeyCode.VcNumPad2:
+                    _nbLetters = 2;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcNumPad3:
+                    _nbLetters = 3;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcNumPad4:
+                    _nbLetters = 4;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcNumPad5:
+                    _nbLetters = 5;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcEnter:
+                    IsAcuiteVisible = !IsAcuiteVisible;
+                    break;
+                case SharpHook.Native.KeyCode.VcSpace:
+                    if (TextColor == Color.Parse("Black"))
+                    {
+                        TextColor = Color.Parse("White");
+                        BackGroundColor = Color.Parse("Black");
+                    }
+                    else
+                    {
+                        TextColor = Color.Parse("Black");
+                        BackGroundColor = Color.Parse("White");
+                    }
+                    break;
+                case SharpHook.Native.KeyCode.VcH:
+                    IsHelpVisible = !IsHelpVisible;
+                    break;
+                case SharpHook.Native.KeyCode.VcM:
+                    ScaleXValue = ScaleXValue *= -1;
+                    break;
+                case SharpHook.Native.KeyCode.VcS:
+                    FontToUse = "Sloan";
+                    _lstToShow = _lstSloan;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcR:
+                    FontToUse = "RaskinLandol";
+                    _lstToShow = _lstRaskin;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcL:
+                    FontToUse = "RaskinLandol";
+                    _lstToShow = _lstLandolt;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcNumPadAdd:
+                    DecreaseTextSize();
+                    break;
+                case SharpHook.Native.KeyCode.VcNumPadSubtract:
+                    IncreaseTextSize();
+                    break;
+
+                case SharpHook.Native.KeyCode.VcEscape:
+                    Shell.Current.GoToAsync("..");
+                    break;
+            }
+        }
+
+        private void ShowCombinaison()
+        {
+            var random = new Random();
+            int index = random.Next(_lstToShow.Count);
+            TextToShow = _lstToShow[index].Substring(random.Next(0, _lstToShow[index].Count() - _nbLetters), _nbLetters);
+        }
+        private void IncreaseTextSize()
+        {
+            ConvertUnit nextVal = _convert.FirstOrDefault(x => x.Logmar.Equals(_currentLogMar + 0.1M));
+            if (nextVal == null)
+            {
+                return;
+            }
+
+            FontSize *= LOGMAR_COEFF;
+            _currentLogMar = nextVal.Logmar;
+            OnPropertyChanged(nameof(AcuiteText));
+            ShowCombinaison();
+        }
+
+        private void DecreaseTextSize()
+        {
+            ConvertUnit nextVal = _convert.FirstOrDefault(x => x.Logmar.Equals(_currentLogMar - 0.1M));
+            if (nextVal == null)
+            {
+                return;
+            }
+
+            FontSize /= LOGMAR_COEFF;
+            _currentLogMar = nextVal.Logmar;
+            OnPropertyChanged(nameof(AcuiteText));
+            ShowCombinaison();
+        }
+
+
         public void OnPropertyChanged([CallerMemberName] string name = "") =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        #endregion
     }
 }

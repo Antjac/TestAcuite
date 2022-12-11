@@ -11,9 +11,12 @@ namespace TestAcuite.ViewModels
     {
         private CalibrationParams _params = new CalibrationParams();
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand CalibrationValidationCommand { get; private set; }
         public ICommand GoToAccuiteCommand { get; private set; }
+
+        #region Construcors
         public CalibrationViewModel()
         {
             CalibrationParams p = ConfigHelper.GetCalibration();
@@ -57,16 +60,9 @@ namespace TestAcuite.ViewModels
                });
 
         }
+        #endregion
 
-        private async void ShowSaveCalibrationToast()
-        {
-            ToastDuration duration = ToastDuration.Long;
-            double fontSize = 50;
-            var toast = Toast.Make("Calibration sauvegardée", duration, fontSize);
-
-            await toast.Show(cancellationTokenSource.Token);
-        }
-
+        #region Properties
         public int FontSize
         {
             get { return _params.FontSize; }
@@ -106,10 +102,20 @@ namespace TestAcuite.ViewModels
                 OnPropertyChanged(nameof(Distance));
             }
         }
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region voids
+        private async void ShowSaveCalibrationToast()
+        {
+            ToastDuration duration = ToastDuration.Long;
+            double fontSize = 50;
+            var toast = Toast.Make("Calibration sauvegardée", duration, fontSize);
+
+            await toast.Show(cancellationTokenSource.Token);
+        }
 
         public void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        #endregion
     }
 }
