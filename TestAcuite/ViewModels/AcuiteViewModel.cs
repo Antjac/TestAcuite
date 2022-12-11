@@ -3,10 +3,6 @@ using System.Runtime.CompilerServices;
 using TestAcuite.Class;
 using TestAcuite.Helpers;
 using SharpHook;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using SharpHook.Native;
-using System;
 
 namespace TestAcuite.ViewModels
 {
@@ -21,6 +17,7 @@ namespace TestAcuite.ViewModels
         private List<String> _lstText = new List<String>() { "NCKZO", "RHSDK", "DOVHR", "ONHRC", "DKSNV", "ZSOKN", "CKDNR", "SRZKD", "HZOVC", "NVDOK", "VHCNO", "SVHCZ", "OZDVK" };
         public SharpHook.SimpleGlobalHook hook = new SimpleGlobalHook();
         private int _nbLetters;
+        private int _angleRotation;
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         ConvertUnit[] _convert = new ConvertUnit[]
         {
@@ -59,7 +56,8 @@ namespace TestAcuite.ViewModels
             _isAcuiteVisible = false;
             _textColor = Color.Parse("White");
             _backgroundColor = Color.Parse("Black");
-            _isAcuiteVisible = false;
+            _isAcuiteVisible = true;
+            _angleRotation = 0;
             _nbLetters = 3;
             hook.KeyPressed += OnKeyPressed;
             Listen();
@@ -117,6 +115,9 @@ namespace TestAcuite.ViewModels
                 case SharpHook.Native.KeyCode.VcH:
                     IsHelpVisible = !IsHelpVisible;
                     break;
+                case SharpHook.Native.KeyCode.VcR:
+                    AngleRotation = (AngleRotation == 0 ? 180 : 0);
+                    break;
                 case SharpHook.Native.KeyCode.VcNumPadAdd:
                     DecreaseTextSize();
                     break;
@@ -148,7 +149,7 @@ namespace TestAcuite.ViewModels
             FontSize *= 1.2589d;
             _currentLogMar = nextVal.Logmar;
             OnPropertyChanged(nameof(AcuiteText));
-            showToast(AcuiteText);
+            
             ShowCombinaison();
         }
 
@@ -163,7 +164,7 @@ namespace TestAcuite.ViewModels
             FontSize /= 1.2589d;
             _currentLogMar = nextVal.Logmar;
             OnPropertyChanged(nameof(AcuiteText));
-            showToast(AcuiteText);
+
             ShowCombinaison();
 
         }
@@ -202,6 +203,12 @@ namespace TestAcuite.ViewModels
             set { _isAcuiteVisible = value; OnPropertyChanged("IsAcuiteVisible"); }
         }
 
+        public int AngleRotation
+        {
+            get { return _angleRotation; }
+            set { _angleRotation = value; OnPropertyChanged("AngleRotation"); }
+        }
+
         public Boolean IsHelpVisible
         {
             get { return _isHelpVisible; }
@@ -221,15 +228,7 @@ namespace TestAcuite.ViewModels
         public void OnPropertyChanged([CallerMemberName] string name = "") =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        async private void showToast(string message)
-        {
-            ToastDuration duration = ToastDuration.Long;
-            double fontSize = 50;
-            var toast = Toast.Make(message, duration, fontSize);
-
-            await toast.Show(cancellationTokenSource.Token);
-        }
-
+    
         public void Dispose()
         {
             if (!hook.IsDisposed)

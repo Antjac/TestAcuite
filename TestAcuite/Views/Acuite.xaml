@@ -10,30 +10,36 @@
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <Label
-                TextColor ="{Binding TextColor, Mode=TwoWay}"
-                IsVisible="{Binding IsHelpVisible, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
-                Text="{Binding TextToShow, Mode=TwoWay}"
-                FontFamily="Sloan"
-                CharacterSpacing="16"
-                FontSize="{Binding FontSize, Mode=TwoWay}" VerticalOptions="Start" FontAutoScalingEnabled="True" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Label
+                    TextColor ="{Binding TextColor, Mode=TwoWay}"
+                    IsVisible="{Binding IsHelpVisible, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
+                    Text="{Binding TextToShow, Mode=TwoWay}"
+                    FontFamily="Sloan"
+                    Rotation="{Binding AngleRotation, Mode=TwoWay}"
+                    CharacterSpacing="16"
+                    FontSize="{Binding FontSize, Mode=TwoWay}" VerticalOptions="Start" FontAutoScalingEnabled="True" />
 
 
-        <Image
-                IsVisible="{Binding IsHelpVisible, Mode=TwoWay}"
-                Source="help.png"
-                HeightRequest="900"/>
+            <Image
+                    IsVisible="{Binding IsHelpVisible, Mode=TwoWay}"
+                    Source="help.png"
+                    HeightRequest="900"/>
         
+        </StackLayout>
         <Label
-                TextColor ="{Binding TextColor, Mode=TwoWay}"
-                VerticalTextAlignment="End"
-                IsVisible="{Binding IsAcuiteVisible, Mode=TwoWay}"
-                Text="{Binding AcuiteText, Mode=TwoWay}"
-                FontSize="40" VerticalOptions="Start" FontAutoScalingEnabled="True" />
-
-
-    </StackLayout>
-
+                    TextColor ="{Binding TextColor, Mode=TwoWay}"
+                    VerticalTextAlignment="End"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    IsVisible="{Binding IsAcuiteVisible, Mode=TwoWay}"
+                    Text="{Binding AcuiteText, Mode=TwoWay}"
+                    FontSize="30" FontAutoScalingEnabled="True" />
+    </Grid>
 
 </ContentPage>
