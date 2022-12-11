@@ -193,25 +193,25 @@ namespace TestAcuite.ViewModels
         public String TextToShow
         {
             get { return _textToShow; }
-            set { _textToShow = value; OnPropertyChanged("TextToShow"); }
+            set { _textToShow = value; OnPropertyChanged(nameof(TextToShow)); }
         }
 
         public String FontToUse
         {
             get { return _fontToUse; }
-            set { _fontToUse = value; OnPropertyChanged("FontToUse"); }
+            set { _fontToUse = value; OnPropertyChanged(nameof(FontToUse)); }
         }
 
         public double FontSize
         {
             get { return _fontSize; }
-            set { _fontSize = value; OnPropertyChanged("FontSize"); }
+            set { _fontSize = value; OnPropertyChanged(nameof(FontSize)); }
         }
 
         public Color TextColor
         {
             get { return _textColor; }
-            set { _textColor = value; OnPropertyChanged("TextColor"); }
+            set { _textColor = value; OnPropertyChanged(nameof(TextColor)); }
 
         }
 
@@ -228,26 +228,26 @@ namespace TestAcuite.ViewModels
         public Boolean IsAcuiteVisible
         {
             get { return _isAcuiteVisible; }
-            set { _isAcuiteVisible = value; OnPropertyChanged("IsAcuiteVisible"); }
+            set { _isAcuiteVisible = value; OnPropertyChanged(nameof(IsAcuiteVisible)); }
         }
 
         public int ScaleXValue
         {
             get { return _scaleX; }
-            set { _scaleX = value; OnPropertyChanged("ScaleXValue"); }
+            set { _scaleX = value; OnPropertyChanged(nameof(ScaleXValue)); }
         }
 
         public Boolean IsHelpVisible
         {
             get { return _isHelpVisible; }
-            set { _isHelpVisible = value; OnPropertyChanged("IsHelpVisible"); }
+            set { _isHelpVisible = value; OnPropertyChanged(nameof(IsHelpVisible)); }
         }
 
 
         public Color BackGroundColor
         {
             get { return _backgroundColor; }
-            set { _backgroundColor = value; OnPropertyChanged("BackGroundColor"); }
+            set { _backgroundColor = value; OnPropertyChanged(nameof(BackGroundColor)); }
         }
 
 
