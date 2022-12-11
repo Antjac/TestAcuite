@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using TestAcuite.Class;
 using TestAcuite.Helpers;
 using SharpHook;
-using Microsoft.Maui.ApplicationModel;
 
 namespace TestAcuite.ViewModels
 {
