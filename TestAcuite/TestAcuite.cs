@@ -11,8 +11,8 @@ public static class TestAcuite
         {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            fonts.AddFont("Optician-Sans.otf", "OpticianSans");
             fonts.AddFont("Sloan.otf", "Sloan");
+            fonts.AddFont("Antjac_Raskin_Landolt.otf", "RaskinLandol");
         }).UseMauiCommunityToolkit();
 
         builder.Services.AddSingleton<Acuite>();

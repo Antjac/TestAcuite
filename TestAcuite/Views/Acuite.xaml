@@ -20,8 +20,8 @@
                     TextColor ="{Binding TextColor, Mode=TwoWay}"
                     IsVisible="{Binding IsHelpVisible, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
                     Text="{Binding TextToShow, Mode=TwoWay}"
-                    FontFamily="Sloan"
-                    Rotation="{Binding AngleRotation, Mode=TwoWay}"
+                    FontFamily="{Binding FontToUse, Mode=TwoWay}"
+                    ScaleX="{Binding ScaleXValue, Mode=TwoWay}"
                     CharacterSpacing="16"
                     FontSize="{Binding FontSize, Mode=TwoWay}" VerticalOptions="Start" FontAutoScalingEnabled="True" />
 

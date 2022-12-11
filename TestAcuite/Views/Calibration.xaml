@@ -129,9 +129,9 @@
                         Grid.Column="2"
                         Grid.Row ="2"
                         LineHeight="-1"
-                        Text="Z"
+                        Text="M"
                         TextColor="White"
-                        FontFamily="Sloan"
+                        FontFamily="Letters"
                         FontSize="{Binding FontSize, Mode=OneWay}"/>
                 </VerticalStackLayout>
 

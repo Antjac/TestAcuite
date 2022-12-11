@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using TestAcuite.Class;
 using TestAcuite.Helpers;
 using SharpHook;
+using Microsoft.Maui.ApplicationModel;
 
 namespace TestAcuite.ViewModels
 {
@@ -14,10 +15,14 @@ namespace TestAcuite.ViewModels
         private Color _textColor;
         private Color _backgroundColor;
         private decimal _currentLogMar;
-        private List<String> _lstText = new List<String>() { "NCKZO", "RHSDK", "DOVHR", "ONHRC", "DKSNV", "ZSOKN", "CKDNR", "SRZKD", "HZOVC", "NVDOK", "VHCNO", "SVHCZ", "OZDVK" };
+        private List<String> _lstToShow = new List<String>();
+        private List<String> _lstSloan = new List<String>() { "NCKZO", "RHSDK", "DOVHR", "ONHRC", "DKSNV", "ZSOKN", "CKDNR", "SRZKD", "HZOVC", "NVDOK", "VHCNO", "SVHCZ", "OZDVK" };
+        private List<String> _lstRaskin = new List<String>() { "ADBCD", "CBADC", "DCBAB", "BADCA" };
+        private List<String> _lstLandolt = new List<String>() { "EKGHI", "LFEKJ", "KEHFI", "FKHIG", "EJFLH","HKIHL","IJFEG","FIHEK" };
         public SharpHook.SimpleGlobalHook hook = new SimpleGlobalHook();
         private int _nbLetters;
-        private int _angleRotation;
+        private int _scaleX;
+        private string _fontToUse;
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         ConvertUnit[] _convert = new ConvertUnit[]
         {
@@ -57,9 +62,12 @@ namespace TestAcuite.ViewModels
             _textColor = Color.Parse("White");
             _backgroundColor = Color.Parse("Black");
             _isAcuiteVisible = true;
-            _angleRotation = 0;
+            _scaleX = 1;
             _nbLetters = 3;
+            _fontToUse = "Sloan";
+            _lstToShow = _lstSloan;
             hook.KeyPressed += OnKeyPressed;
+            ShowCombinaison();
             Listen();
         }
 
@@ -68,8 +76,6 @@ namespace TestAcuite.ViewModels
             _params = ConfigHelper.GetCalibration();
             _currentLogMar = _params.Accuity;
             FontSize = _params.FontSize;
-            int index = new Random().Next(_lstText.Count);
-            TextToShow = _lstText[index].Substring(0, 3);
             if (!hook.IsRunning)
             {
                 hook.RunAsync();
@@ -115,8 +121,23 @@ namespace TestAcuite.ViewModels
                 case SharpHook.Native.KeyCode.VcH:
                     IsHelpVisible = !IsHelpVisible;
                     break;
+                case SharpHook.Native.KeyCode.VcM:
+                    ScaleXValue = ScaleXValue *= -1;
+                    break;
+                case SharpHook.Native.KeyCode.VcS:
+                    FontToUse = "Sloan";
+                    _lstToShow = _lstSloan;
+                    ShowCombinaison();
+                    break;
                 case SharpHook.Native.KeyCode.VcR:
-                    AngleRotation = (AngleRotation == 0 ? 180 : 0);
+                    FontToUse = "RaskinLandol";
+                    _lstToShow = _lstRaskin;
+                    ShowCombinaison();
+                    break;
+                case SharpHook.Native.KeyCode.VcL:
+                    FontToUse = "RaskinLandol";
+                    _lstToShow = _lstLandolt;
+                    ShowCombinaison();
                     break;
                 case SharpHook.Native.KeyCode.VcNumPadAdd:
                     DecreaseTextSize();
@@ -135,8 +156,8 @@ namespace TestAcuite.ViewModels
         private void ShowCombinaison()
         {
             var random = new Random();
-            int index = random.Next(_lstText.Count);
-            TextToShow = _lstText[index].Substring(0, _nbLetters);
+            int index = random.Next(_lstToShow.Count);
+            TextToShow = _lstToShow[index].Substring(random.Next(0, _lstToShow[index].Count() - _nbLetters), _nbLetters);
         }
         private void IncreaseTextSize()
         {
@@ -174,6 +195,13 @@ namespace TestAcuite.ViewModels
             get { return _textToShow; }
             set { _textToShow = value; OnPropertyChanged("TextToShow"); }
         }
+
+        public String FontToUse
+        {
+            get { return _fontToUse; }
+            set { _fontToUse = value; OnPropertyChanged("FontToUse"); }
+        }
+
         public double FontSize
         {
             get { return _fontSize; }
@@ -203,10 +231,10 @@ namespace TestAcuite.ViewModels
             set { _isAcuiteVisible = value; OnPropertyChanged("IsAcuiteVisible"); }
         }
 
-        public int AngleRotation
+        public int ScaleXValue
         {
-            get { return _angleRotation; }
-            set { _angleRotation = value; OnPropertyChanged("AngleRotation"); }
+            get { return _scaleX; }
+            set { _scaleX = value; OnPropertyChanged("ScaleXValue"); }
         }
 
         public Boolean IsHelpVisible
