@@ -44,7 +44,7 @@
                         Grid.Column="1"
                         Grid.Row="1"
                         TextColor="White"
-                        Text="Distance Patient-Ecran (cm): "
+                        Text="Distance Patient-Ecran (cm)"
                         FontSize="32"/>
 
                     <Entry

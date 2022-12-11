@@ -67,8 +67,8 @@ namespace TestAcuite.ViewModels
             _fontToUse = "Sloan";
             _lstToShow = _lstSloan;
             hook.KeyPressed += OnKeyPressed;
-            ShowCombinaison();
             Listen();
+            ShowCombinaison();
         }
         #endregion
 
@@ -148,12 +148,18 @@ namespace TestAcuite.ViewModels
             {
                 hook.RunAsync();
             }
+            OnPropertyChanged(nameof(AcuiteText));
         }
 
         private void OnKeyPressed(object sender, KeyboardHookEventArgs e)
         {
             switch (e.Data.KeyCode)
             {
+                case SharpHook.Native.KeyCode.VcNumPad1:
+                    _nbLetters = 1;
+                    ShowCombinaison();
+                    break;
+
                 case SharpHook.Native.KeyCode.VcNumPad2:
                     _nbLetters = 2;
                     ShowCombinaison();

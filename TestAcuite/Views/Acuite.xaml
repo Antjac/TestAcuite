@@ -23,9 +23,9 @@
                     FontFamily="{Binding FontToUse, Mode=TwoWay}"
                     ScaleX="{Binding ScaleXValue, Mode=TwoWay}"
                     CharacterSpacing="16"
+                    LineBreakMode="TailTruncation"
+                
                     FontSize="{Binding FontSize, Mode=TwoWay}" VerticalOptions="Start" FontAutoScalingEnabled="True" />
-
-
             <Image
                     IsVisible="{Binding IsHelpVisible, Mode=TwoWay}"
                     Source="help.png"
