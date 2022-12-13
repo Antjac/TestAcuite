@@ -23,7 +23,7 @@
                     FontFamily="{Binding FontToUse, Mode=TwoWay}"
                     ScaleX="{Binding ScaleXValue, Mode=TwoWay}"
                     CharacterSpacing="16"
-                    LineBreakMode="TailTruncation"
+                    LineBreakMode="NoWrap"
                 
                     FontSize="{Binding FontSize, Mode=TwoWay}" VerticalOptions="Start" FontAutoScalingEnabled="True" />
             <Image
