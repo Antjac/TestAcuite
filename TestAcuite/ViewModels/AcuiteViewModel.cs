@@ -197,17 +197,17 @@ namespace TestAcuite.ViewModels
                 case SharpHook.Native.KeyCode.VcM:
                     ScaleXValue = ScaleXValue *= -1;
                     break;
-                case SharpHook.Native.KeyCode.VcS:
+                case SharpHook.Native.KeyCode.VcF1:
                     FontToUse = "Sloan";
                     _lstToShow = _lstSloan;
                     ShowCombinaison();
                     break;
-                case SharpHook.Native.KeyCode.VcR:
+                case SharpHook.Native.KeyCode.VcF2:
                     FontToUse = "RaskinLandol";
                     _lstToShow = _lstRaskin;
                     ShowCombinaison();
                     break;
-                case SharpHook.Native.KeyCode.VcL:
+                case SharpHook.Native.KeyCode.VcF3:
                     FontToUse = "RaskinLandol";
                     _lstToShow = _lstLandolt;
                     ShowCombinaison();
